@@ -1,0 +1,181 @@
+[1:26 PM, 2/9/2023] Sakthi Krishna Sse (Os): #include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+#define NUM_PHILOSOPHERS 5
+#define NUM_CHOPSTICKS 5
+
+void dine(int n);
+pthread_t philosopher[NUM_PHILOSOPHERS];
+pthread_mutex_t chopstick[NUM_CHOPSTICKS];
+
+int main()
+{
+  int i, status_message;
+  void *msg;
+
+  for (i = 1; i <= NUM_CHOPSTICKS; i++)
+  {
+    status_message = pthread_mutex_init(&chopstick[i], NULL);
+    if (status_message == -1)
+    {
+      printf("\n Mutex initialization failed");
+      exit(1);
+    }
+  }
+
+  for (i = 1; i <= NUM_PHILOSOPHERS; i++)
+  {
+    status_message = pthread_create(&philosopher[i], NULL, (void *)dine, (int *)i);
+    if (status_message != 0)
+    {
+      printf("\n Thread creation error \n");
+      exit(1);
+    }
+  }
+  for (i = 1; i <= NUM_PHILOSOPHERS; i++)
+  {
+    status_message = pthread_join(philosopher[i], &msg);
+    if (status_message != 0)
+    {
+      printf("\n Thread join failed \n");
+      exit(1);
+    }
+  }
+
+  for (i = 1; i <= NUM_CHOPSTICKS; i++)
+  {
+    status_message = pthread_mutex_destroy(&chopstick[i]);
+    if (status_message != 0)
+    {
+      printf("\n Mutex Destroyed \n");
+      exit(1);
+    }
+  }
+  return 0;
+}
+void dine(int n)
+{
+  printf("\nPhilosopher % d is thinking ", n);
+
+  
+  pthread_mutex_lock(&chopstick[n]);
+  
+  pthread_mutex_lock(&chopstick[(n + 1) % NUM_CHOPSTICKS]);
+
+  printf("\nPhilosopher % d is eating ", n);
+  sleep(3);
+
+  pthread_mutex_unlock(&chopstick[n]);
+
+  pthread_mutex_unlock(&chopstick[(n + 1) % NUM_CHOPSTICKS]);
+
+  printf("\nPhilosopher % d Finished eating ", n);
+}
+[2:16 PM, 2/9/2023] Sakthi Krishna Sse (Os): #include<stdio.h>
+#include<conio.h>
+#include<string.h>
+int main(){
+	int nf=0,i=0,j=0,ch;
+	char mdname[10],fname[10][10],name[10];
+	printf("Enter the directory name:");
+	scanf("%s",mdname);
+	printf("Enter the number of files:");
+	scanf("%d",&nf);
+	do{
+		printf("Enter file name to be created:");
+		scanf("%s",name);
+		for(i=0;i<nf;i++){
+			if(!strcmp(name,fname[i]))
+			break;
+		}
+		if(i==nf){
+			strcpy(fname[j++],name);
+			nf++;
+		}
+		else
+		printf("There is already %s\n",name);
+		printf("Do you want to enter another file(yes - 1 or no - 0):");
+		scanf("%d",&ch);
+	}
+	while(ch==1);
+	printf("Directory name is:%s\n",mdname);
+	printf("Files names are:");
+	for(i=0;i<j;i++){
+		printf("\n%s",fname[i]);
+	}
+getch();
+}
+[2:20 PM, 2/9/2023] Sakthi Krishna Sse (Os): #include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+#define NUM_PHILOSOPHERS 5
+#define NUM_CHOPSTICKS 5
+
+void dine(int n);
+pthread_t philosopher[NUM_PHILOSOPHERS];
+pthread_mutex_t chopstick[NUM_CHOPSTICKS];
+
+int main()
+{
+  int i, status_message;
+  void *msg;
+
+  for (i = 1; i <= NUM_CHOPSTICKS; i++)
+  {
+    status_message = pthread_mutex_init(&chopstick[i], NULL);
+    if (status_message == -1)
+    {
+      printf("\n Mutex initialization failed");
+      exit(1);
+    }
+  }
+
+  for (i = 1; i <= NUM_PHILOSOPHERS; i++)
+  {
+    status_message = pthread_create(&philosopher[i], NULL, (void *)dine, (int *)i);
+    if (status_message != 0)
+    {
+      printf("\n Thread creation error \n");
+      exit(1);
+    }
+  }
+  for (i = 1; i <= NUM_PHILOSOPHERS; i++)
+  {
+    status_message = pthread_join(philosopher[i], &msg);
+    if (status_message != 0)
+    {
+      printf("\n Thread join failed \n");
+      exit(1);
+    }
+  }
+
+  for (i = 1; i <= NUM_CHOPSTICKS; i++)
+  {
+    status_message = pthread_mutex_destroy(&chopstick[i]);
+    if (status_message != 0)
+    {
+      printf("\n Mutex Destroyed \n");
+      exit(1);
+    }
+  }
+  return 0;
+}
+void dine(int n)
+{
+  printf("\nPhilosopher % d is thinking ", n);
+
+  
+  pthread_mutex_lock(&chopstick[n]);
+  
+  pthread_mutex_lock(&chopstick[(n + 1) % NUM_CHOPSTICKS]);
+
+  printf("\nPhilosopher % d is eating ", n);
+  sleep(3);
+  pthread_mutex_unlock(&chopstick[n]);
+
+  pthread_mutex_unlock(&chopstick[(n + 1) % NUM_CHOPSTICKS]);
+
+  printf("\nPhilosopher % d Finished eating ", n);
+}
